@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 
 public class CartPage extends BasePage {
@@ -14,7 +15,7 @@ public class CartPage extends BasePage {
 
 	    }
 	    
-	    @FindBy(id = "add-to-cart-button")
+	    @FindBy(how= How.ID, using= "add-to-cart-button")
 	    private WebElement btnAddCart;
 
 	   

@@ -37,10 +37,9 @@ public class TestBase {
 	String browserLocation = properties.getConfigProperty("browserlocation");
 	String url = properties.getConfigProperty("URL");*/
 
-	@Parameters({"browser", "browserlocation","url" })	
+	@Parameters({"browser","url" })	
 	@BeforeTest(alwaysRun = true)
-	public void driverInitialize(@Optional("firefox") String broweserName,
-			@Optional("geckodriver.exe")String browserExe,@Optional("https://www.amazon.com/")String url) throws Exception {
+	public void driverInitialize(@Optional("firefox") String broweserName,@Optional("https://www.amazon.com/")String url) throws Exception {
 		switch(broweserName.toUpperCase()) {
 		case "CHROME":
 			System.out.println("Initializing Chrome  Driver");

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -39,11 +40,17 @@ public class BasePage {
 	private WebElement btnSearch;
 	
 
-	@FindBy(how= How.CSS, using="div[data-component-type='sp-sponsored-result']")
+//	@FindBy(how= How.CSS, using="[data-component-type='sp-sponsored-result'] .a-spacing-none .a-spacing-none")
+//	private List<WebElement> lstSearchedItemsList;
+	
+	@FindBy(how= How.CSS, using="[data-component-type='sp-sponsored-result']")
 	private List<WebElement> lstSearchedItemsList;
+	
+	private By listBestSeller = By.cssSelector(" .a-badge-text");
+	private By listItemName = By.cssSelector(" .a-spacing-none .a-spacing-none");
 
-	@FindBy(how= How.XPATH, using="//div[@data-component-type='sp-sponsored-result']//span[@class='a-badge-label-inner a-text-ellipsis']")
-	private WebElement lblBestSellerItem;
+//	@FindBy(how= How.XPATH, using="(//div[@data-component-type='sp-sponsored-result']//span[@class='a-badge-label-inner a-text-ellipsis'])[1]")
+//	private WebElement lblBestSellerItem;
 	
 	
 
@@ -53,15 +60,27 @@ public class BasePage {
 		txtSearchItem.clear();
 		txtSearchItem.sendKeys(itemType);
 		btnSearch.click();
-		waitForVisibilityOfListElements(lstSearchedItemsList);
+		//waitForVisibilityOfListElements(lstSearchedItemsList);
 	}
 	
 	public String openBestSellerItem() {
-		JavascriptExecutor js =  (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].scrollIntoView(true);", lblBestSellerItem);
-		System.out.println(lblBestSellerItem.getText());
-		String bestSeller = lblBestSellerItem.getText();
-		lblBestSellerItem.click();
+		String bestSeller=null;
+		for(int i=0;i<lstSearchedItemsList.size();i++) {
+			bestSeller = null;
+			JavascriptExecutor js =  (JavascriptExecutor) driver;
+			js.executeScript("arguments[0].scrollIntoView(true);", lstSearchedItemsList.get(i));
+			try {
+				 bestSeller= lstSearchedItemsList.get(i).findElement(listBestSeller).getText();
+			}catch(Exception e){
+				
+			}
+			 System.out.println("Best Seller presen item present:"+bestSeller);
+			 if(bestSeller.equalsIgnoreCase("Best Seller")) {
+				 System.out.println("Best seller item present at"+lstSearchedItemsList.get(i));
+				 lstSearchedItemsList.get(i).findElement(listItemName).click();
+				 break;
+			 }
+		}
 		return  bestSeller;
 	}
 
