@@ -22,7 +22,7 @@ public class verifyAddProductToCart extends TestBase{
 	}
 
 	@Test
-	public void verifyFlightsSearch() {
+	public void verifyProdutSearch() {
 		basePage.searchItem("Headphones");
 		String bestSellerTxt = basePage.openBestSellerItem();
 		softAssert.assertEquals("Best Seller", bestSellerTxt);
